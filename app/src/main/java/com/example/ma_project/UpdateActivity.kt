@@ -34,14 +34,13 @@ class UpdateActivity : AppCompatActivity() {
         updateButton = findViewById(R.id.update_button)
         deleteButton = findViewById(R.id.delete_button)
 
-        // First we call this
+
         getAndSetIntentData()
 
-        // Set actionbar title after getAndSetIntentData method
         supportActionBar?.title = title
 
         updateButton.setOnClickListener {
-            // And only then we call this
+
             val myDB = MyDatabaseHelper(this)
             title = titleInput.text.toString().trim()
             author = authorInput.text.toString().trim()

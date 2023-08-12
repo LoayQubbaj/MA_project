@@ -37,7 +37,7 @@ class CustomAdapter(private val activity: Activity, private val context: Context
         holder.book_author_txt.text = book_author[position].toString()
         holder.book_pages_txt.text = book_pages[position].toString()
 
-        // RecyclerView onClickListener
+
         holder.mainLayout.setOnClickListener {
             val intent = Intent(context, UpdateActivity::class.java)
             intent.putExtra("id", book_id[position].toString())

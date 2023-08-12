@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity() {
         builder.setPositiveButton("Yes") { _, _ ->
             val myDB = MyDatabaseHelper(this)
             myDB.deleteAllData()
-            // Refresh Activity
+
             val intent = Intent(this@MainActivity, MainActivity::class.java)
             startActivity(intent)
             finish()
