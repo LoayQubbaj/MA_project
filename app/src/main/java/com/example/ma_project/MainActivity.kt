@@ -16,6 +16,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.ma_project.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.ArrayList
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.os.Build
+import androidx.core.app.NotificationCompat
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -105,12 +111,47 @@ class MainActivity : AppCompatActivity() {
         builder.setPositiveButton("Yes") { _, _ ->
             val myDB = MyDatabaseHelper(this)
             myDB.deleteAllData()
+            // Refresh Activity
+            val intent = Intent(this@MainActivity, MainActivity::class.java)
+            startActivity(intent)
+            finish()
 
+        }
+        builder.setNegativeButton("No") { _, _ -> }
+        builder.create().show()
+
+        builder.setPositiveButton("Yes") { _, _ ->
+            val myDB = MyDatabaseHelper(this)
+            myDB.deleteAllData()
+            // Show notification
+            showNotification()
+            // Refresh Activity
             val intent = Intent(this@MainActivity, MainActivity::class.java)
             startActivity(intent)
             finish()
         }
-        builder.setNegativeButton("No") { _, _ -> }
-        builder.create().show()
     }
+
+    public fun showNotification() {
+        val notificationId = 1
+        val channelId = "delete_channel"
+        val notificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "Delete Notification Channel"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(channelId, name, importance)
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        val builder = NotificationCompat.Builder(this, channelId)
+            .setSmallIcon(R.drawable.ic_delete) // Assuming you have an appropriate delete icon
+            .setContentTitle("Data Deleted")
+            .setContentText("All data has been deleted successfully")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+        notificationManager.notify(notificationId, builder.build())
+    }
+
 }
